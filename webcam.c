@@ -211,6 +211,13 @@ int startStreaming( int fd )
   return res;
 }
 
+int stopStreaming( int fd )
+{
+  enum v4l2_buf_type type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+  int res = _ioctl( fd, VIDIOC_STREAMOFF, &type );
+  return res;
+}
+
 int waitForFrame( int fd, uint32_t timeout )
 {
   for ( ;; ) {

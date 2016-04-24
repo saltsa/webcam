@@ -200,14 +200,26 @@ func (w *Webcam) WaitForFrame(timeout uint32) error {
 	}
 }
 
-// Close the device
-func (w *Webcam) Close() error {
+
+func (w *Webcam) StopStreaming() error {
 	for _, buffer := range w.buffers {
 		res, err := C.mmapReleaseBuffer(buffer.start, C.uint32_t(buffer.length))
 		if res < 0 {
 			return err
 		}
 	}
+
+	res, err := C.stopStreaming(C.int(w.fd))
+  if res < 0 {
+    return err
+  }
+
+  return nil
+}
+
+// Close the device
+func (w *Webcam) Close() error {
+  w.StopStreaming()
 
 	res, err := C.closeWebcam(C.int(w.fd))
 	if res < 0 {

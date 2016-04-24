@@ -17,6 +17,7 @@ int mmapEnqueueBuffer(int fd,uint32_t index);
 int mmapReleaseBuffer(void* start, uint32_t length);
 
 int startStreaming(int fd);
+int stopStreaming(int fd);
 
 int waitForFrame(int fd, uint32_t timeout);
 
